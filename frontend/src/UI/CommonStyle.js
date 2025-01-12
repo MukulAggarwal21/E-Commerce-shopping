@@ -5,9 +5,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding: 30px 50px 30px 50px;
+  padding: 30px 50px;
   flex-direction: column;
   margin-bottom: 50px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 `;
 
 const FormContainer = styled.div`
@@ -17,10 +20,16 @@ const FormContainer = styled.div`
   height: 100%;
   padding: 60px;
   flex-direction: column;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   input {
     margin: 20px;
     width: 30%;
     height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
   }
   input[type="submit"] {
     background-color: turquoise;
@@ -29,6 +38,10 @@ const FormContainer = styled.div`
     border-radius: 8px;
     width: 20%;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  input[type="submit"]:hover {
+    background-color: #40e0d0;
   }
 `;
 
@@ -36,12 +49,19 @@ const ProductFormContainer = styled.div`
   align-items: center;
   text-align: center;
   margin-bottom: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
   input {
     text-align: center;
     display: block;
     margin-bottom: 10px;
     width: 100%;
     height: 30px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 5px;
   }
   span {
     display: flex;
@@ -57,6 +77,11 @@ const ProductFormContainer = styled.div`
     width: 45%;
     height: 45%;
     cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  button:hover,
+  input[type="submit"]:hover {
+    background-color: #40e0d0;
   }
 `;
 
@@ -72,6 +97,10 @@ const Button = styled.button`
   font-size: 16px;
   padding: 5px;
   color: black;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #40e0d0;
+  }
 `;
 
 export { Container, FormContainer, ProductFormContainer, Button };

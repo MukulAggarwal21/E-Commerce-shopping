@@ -2,8 +2,13 @@
   const jwt = require("jsonwebtoken");
 
   function generateAccessToken(user) {
-    console.log(process.env.ACCESS_TOKEN_SECRET); // Check if it's being read correctly
-    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1h' });
+    try {
+      return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, { expiresIn: "1h" });
+    } catch (err) {
+      console.error("JWT Error:", err);
+      throw err;
+    }
+    
   }
   
 

@@ -2,16 +2,20 @@ const express = require("express");
 const mongoose = require("mongoose");
 const app = express();
 
+require("dotenv").config();
+
+app.set('view engine', 'ejs');
+
+
 mongoose
   .connect("mongodb://127.0.0.1:27017/mydb", { useNewUrlParser: true })
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT ;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// app.use(session({ secret: "mysecret" }));
 
 const routes = require("./routes/index");
 app.use("/api", routes);

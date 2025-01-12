@@ -14,14 +14,13 @@ export default function CreateUser(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    // Basic validation: Ensure both email and secret are provided
     if (!data.email || !data.secret) {
       alert("Please enter both email and secret.");
       return;
     }
   
     try {
-      const url = "/api/signin"; // Check if the API endpoint is correct
+      const url = "/api/signin";
       const response = await Axios.post(url, {
         email: data.email,
         secret: data.secret,
@@ -32,12 +31,11 @@ export default function CreateUser(props) {
         window.location.reload();
       } else {
         alert("You have passed authentication and signed in successfully!");
-        auth.login(response.data.accessToken, 500, response.data.id);  // Assuming auth.login is working fine
+        auth.login(response.data.accessToken, 500, response.data.id);  
         window.location = "/";  // Redirect to home
-        setData(LoginConstant);  // Reset data to default
+        setData(LoginConstant);  
       }
     } catch (e) {
-      // Log error for debugging and provide more details
       console.error("Error during authentication:", e);
       alert("Something went wrong, please check the console for details.");
     }
