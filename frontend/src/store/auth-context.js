@@ -42,12 +42,19 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem("expirationTime", expirationTime);
   };
 
+  const refreshTokenHandler = (newToken, newExpirationTime) => {
+    setToken(newToken);
+    localStorage.setItem("token", newToken);
+    localStorage.setItem("expirationTime", newExpirationTime);
+  };
+
   const contextValue = {
     token: token,
     userId: userId,
     isLoggedIn: userIsLoggedIn,
     login: loginHandler,
     logout: logoutHandler,
+    refreshToken: refreshTokenHandler,
   };
 
   return (

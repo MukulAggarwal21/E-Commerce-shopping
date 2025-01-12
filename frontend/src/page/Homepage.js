@@ -7,15 +7,21 @@ import {
   Typography,
   Button,
   CircularProgress,
+  Snackbar,
+  Alert,
+  Tooltip,
 } from "@mui/material";
 import { AddShoppingCart, Add } from "@mui/icons-material";
 import CartContext from "../store/cart-context";
+import { motion } from "framer-motion";
 
 export default function Homepage(props) {
   const { isLoggedIn, search } = props;
   const [loading, setLoading] = useState(false);
   const [initialState, setInitialState] = useState([]);
   const [filteredState, setFilteredState] = useState([]);
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
 
   const cart = useContext(CartContext);
 
@@ -25,12 +31,12 @@ export default function Homepage(props) {
         if (res.ok) {
           return res.json();
         } else {
-          throw new Error("not able to fetch data correctly");
+          throw new Error("Unable to fetch data.");
         }
       });
       setInitialState(result);
     } catch (e) {
-      console.log(e.message);
+      console.error(e.message);
     }
   };
 
@@ -49,10 +55,10 @@ export default function Homepage(props) {
 
   useEffect(() => {
     if (search.trim().length > 0 && initialState) {
-      let result = initialState.filter(
-        (each) =>
-          each["title"].toLowerCase().includes(search.toLowerCase()) ||
-          each["description"].toLowerCase().includes(search.toLowerCase())
+      const result = initialState.filter(
+        (item) =>
+          item.title.toLowerCase().includes(search.toLowerCase()) ||
+          item.description.toLowerCase().includes(search.toLowerCase())
       );
       setFilteredState(result);
     }
@@ -60,28 +66,45 @@ export default function Homepage(props) {
 
   const handleClick = (id) => {
     if (isLoggedIn) {
-      window.location = "/product/" + id;
+      window.location = `/product/${id}`;
     } else {
-      alert("Please log in to add, edit or delete the product!");
+      alert("Please log in to view or edit products.");
     }
   };
 
   const addToCart = (item) => {
     cart.setCartItems(item);
+    setSnackbarMessage("Item added to cart!");
+    setSnackbarOpen(true);
   };
 
   const handleAddClick = () => {
     window.location = "/product";
   };
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false);
+  };
+
   return (
-    <div style={{ padding: "20px" }}>
-      <Typography variant="h3" align="center" gutterBottom>
-        Welcome to Our Store
-      </Typography>
-      <Typography variant="subtitle1" align="center" color="textSecondary">
-        Browse our collection of amazing products!
-      </Typography>
+    <div style={{ padding: "20px", fontFamily: "'Poppins', sans-serif" }}>
+      {/* Hero Section */}
+      <motion.div
+        initial={{ opacity: 0, y: -50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8 }}
+        style={{ textAlign: "center", marginBottom: "30px" }}
+      >
+        <Typography variant="h2" style={{ fontWeight: 700, color: "#3f51b5" }}>
+          Welcome to Our Store
+        </Typography>
+        <Typography
+          variant="subtitle1"
+          style={{ color: "#6c757d", marginTop: "10px" }}
+        >
+          Discover amazing products tailored just for you.
+        </Typography>
+      </motion.div>
 
       {loading ? (
         <div
@@ -91,77 +114,86 @@ export default function Homepage(props) {
             marginTop: "50px",
           }}
         >
-          <CircularProgress />
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ repeat: Infinity, duration: 1 }}
+          >
+            <CircularProgress size={60} thickness={5} />
+          </motion.div>
         </div>
       ) : (
-        <Grid container spacing={3} style={{ marginTop: "20px" }}>
+        <Grid container spacing={4} style={{ marginTop: "20px" }}>
           {(search.trim().length > 0 ? filteredState : initialState).map(
             (product, index) => (
               <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
-                <Card
-                  style={{
-                    height: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "space-between",
-                    boxShadow: "0px 4px 15px rgba(0, 0, 0, 0.2)",
-                    transition: "transform 0.2s",
-                  }}
-                  onMouseOver={(e) =>
-                    (e.currentTarget.style.transform = "scale(1.05)")
-                  }
-                  onMouseOut={(e) =>
-                    (e.currentTarget.style.transform = "scale(1)")
-                  }
+                <motion.div
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  style={{ height: "100%" }}
                 >
-                  <CardContent>
-                    <Typography variant="h5" gutterBottom>
-                      {product.title}
-                    </Typography>
-                    <Typography variant="body2" color="textSecondary">
-                      {product.description}
-                    </Typography>
-                    <Typography
-                      variant="subtitle1"
-                      style={{ marginTop: "10px" }}
-                    >
-                      Quantity:{" "}
-                      <b>
-                        {product.quantity ? product.quantity : "Not Available"}
-                      </b>
-                    </Typography>
-                    <Typography variant="h6" color="primary">
-                      Price: ${product.price}
-                    </Typography>
-                  </CardContent>
-                  <CardActions
+                  <Card
                     style={{
+                      height: "100%",
+                      display: "flex",
+                      flexDirection: "column",
                       justifyContent: "space-between",
-                      padding: "0 16px 16px",
+                      boxShadow: "0 4px 20px rgba(0, 0, 0, 0.2)",
+                      transition: "all 0.3s",
                     }}
                   >
-                    {product.quantity ? (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        startIcon={<AddShoppingCart />}
-                        onClick={() => addToCart(product)}
-                      >
-                        Add to Cart
-                      </Button>
-                    ) : (
-                      <Typography variant="body2" color="error">
-                        <b>Out of Stock</b>
+                    <CardContent>
+                      <Typography variant="h5" gutterBottom>
+                        {product.title}
                       </Typography>
-                    )}
-                    <Button
-                      variant="outlined"
-                      onClick={() => handleClick(product.id)}
-                    >
-                      View Details
-                    </Button>
-                  </CardActions>
-                </Card>
+                      <Typography variant="body2" color="textSecondary">
+                        {product.description}
+                      </Typography>
+                      <Typography
+                        variant="subtitle1"
+                        style={{ marginTop: "10px" }}
+                      >
+                        Quantity: {" "}
+                        <b>
+                          {product.quantity ? product.quantity : "Not Available"}
+                        </b>
+                      </Typography>
+                      <Typography
+                        variant="h6"
+                        style={{ color: "#28a745", marginTop: "10px" }}
+                      >
+                        Price: ${product.price}
+                      </Typography>
+                    </CardContent>
+                    <CardActions style={{ justifyContent: "space-between" }}>
+                      {product.quantity ? (
+                        <Tooltip title="Add to Cart" arrow>
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            startIcon={<AddShoppingCart />}
+                            onClick={() => addToCart(product)}
+                          >
+                            Add
+                          </Button>
+                        </Tooltip>
+                      ) : (
+                        <Typography
+                          variant="body2"
+                          color="error"
+                          style={{ fontWeight: 600 }}
+                        >
+                          Out of Stock
+                        </Typography>
+                      )}
+                      <Button
+                        variant="outlined"
+                        onClick={() => handleClick(product.id)}
+                      >
+                        View Details
+                      </Button>
+                    </CardActions>
+                  </Card>
+                </motion.div>
               </Grid>
             )
           )}
@@ -170,20 +202,37 @@ export default function Homepage(props) {
 
       <div style={{ marginTop: "30px", textAlign: "center" }}>
         {isLoggedIn ? (
-          <Button
-            variant="contained"
-            color="secondary"
-            startIcon={<Add />}
-            onClick={handleAddClick}
-          >
-            Add a New Product
-          </Button>
+          <motion.div whileHover={{ scale: 1.1 }}>
+            <Button
+              variant="contained"
+              color="secondary"
+              startIcon={<Add />}
+              onClick={handleAddClick}
+            >
+              Add a New Product
+            </Button>
+          </motion.div>
         ) : (
           <Typography variant="h6" color="textSecondary">
-            Please log in to add, edit, or delete products!
+            Please log in to add, edit, or delete products.
           </Typography>
         )}
       </div>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleSnackbarClose}
+          severity="success"
+          variant="filled"
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 }

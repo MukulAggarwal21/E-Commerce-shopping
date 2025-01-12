@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import CartContext from "../store/cart-context";
-
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import PersonIcon from "@mui/icons-material/Person";
@@ -8,7 +7,6 @@ import classes from "./style.module.css";
 
 export default function Navbar(props) {
   const { isLoggedIn, setSearch } = props;
-
   const cart = useContext(CartContext);
   const cartCount = cart.cartCount;
 
@@ -25,7 +23,7 @@ export default function Navbar(props) {
     }
   };
 
-  const shoppingCartHandler = (e) => {
+  const shoppingCartHandler = () => {
     window.location = "/cart";
   };
 
@@ -47,16 +45,7 @@ export default function Navbar(props) {
         <SearchIcon className={classes.searchIcon} />
       </div>
       <div className={classes.iconRight}>
-        <p
-          style={{
-            right: "30px",
-            top: "3px",
-            display: "inline",
-            position: "absolute",
-          }}
-        >
-          {cartCount}
-        </p>
+        <span className={classes.cartCount}>{cartCount}</span>
         <ShoppingCartIcon
           className={classes.shoppingCart}
           onClick={shoppingCartHandler}

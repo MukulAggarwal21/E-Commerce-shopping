@@ -1,4 +1,26 @@
-import React, { useState } from "react";
+import React from "react";
+import styled from "styled-components";
+
+const StyledInput = styled.input`
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 15px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #007bff;
+  }
+`;
+
+const StyledLabel = styled.label`
+  font-size: 1rem;
+  font-weight: bold;
+`;
 
 export default function Input(props) {
   const {
@@ -15,8 +37,8 @@ export default function Input(props) {
 
   return (
     <React.Fragment>
-      <label>{label}</label>
-      <input
+      <StyledLabel htmlFor={id}>{label}</StyledLabel>
+      <StyledInput
         id={id}
         type={type}
         min={min}
@@ -24,9 +46,9 @@ export default function Input(props) {
         value={value}
         placeholder={placeholder}
         onChange={handleChange}
-        minLength={minlength}
         required
-      ></input>
+        minlength={minlength}
+      />
     </React.Fragment>
   );
 }

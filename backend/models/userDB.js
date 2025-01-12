@@ -19,13 +19,11 @@ userSchema.plugin(uniqueValidator);
 
 userSchema.statics.findAndValidate = async function (email, secret) {
   const foundUser = await this.findOne({ email });
-  let isValid;
   if (foundUser) {
-    isValid = await bcrypt.compare(secret, foundUser.secret);
-  } else {
-    return false;
+    const isValid = await bcrypt.compare(secret, foundUser.secret);
+    return isValid ? foundUser : false;
   }
-  return isValid ? foundUser : false;
+  return false;
 };
 
 userSchema.pre("save", async function (next) {

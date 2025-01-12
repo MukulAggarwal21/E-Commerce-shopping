@@ -26,4 +26,12 @@ const LoginConstant = {
   secret: "",
 };
 
-export { ProductConstant, ShoppingCartConstant, UserConstant, LoginConstant };
+const OrderConstant = {
+  orderId: "",
+  userId: "",
+  items: [],
+  totalAmount: 0,
+  orderDate: "",
+};
+
+export { ProductConstant, ShoppingCartConstant, UserConstant, LoginConstant, OrderConstant };

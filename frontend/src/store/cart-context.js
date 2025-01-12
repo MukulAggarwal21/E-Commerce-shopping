@@ -79,6 +79,16 @@ export const CartContextProvider = (props) => {
     window.location = "/";
   };
 
+  const updateCartItemQuantity = (item, quantity) => {
+    const temp = _.cloneDeep(items);
+    const index = temp.findIndex((i) => i.title === item.title);
+    if (index !== -1) {
+      temp[index].selectedQuantity = quantity;
+      setItems(temp);
+      setCount(temp.length);
+    }
+  };
+
   const afterCheckoutHandler = async () => {
     await Axios.get("/api/lastOrder")
       .then((res) => {
@@ -105,6 +115,7 @@ export const CartContextProvider = (props) => {
     deleteAllItems: deleteAllItemsHandler,
     clearCartItems: clearCartHandler,
     checkoutItems: afterCheckoutHandler,
+    updateCartItemQuantity: updateCartItemQuantity,
   };
 
   return (

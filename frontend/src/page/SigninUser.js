@@ -13,30 +13,36 @@ export default function CreateUser(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Basic validation: Ensure both email and secret are provided
+    if (!data.email || !data.secret) {
+      alert("Please enter both email and secret.");
+      return;
+    }
+  
     try {
-      const url = "/api/signin";
-      await Axios.post(url, {
+      const url = "/api/signin"; // Check if the API endpoint is correct
+      const response = await Axios.post(url, {
         email: data.email,
         secret: data.secret,
-      }).then((res) => {
-        if (res.data === "NO") {
-          alert(
-            "Authentication Failed! Something went wrong, please check again!"
-          );
-          window.location.reload();
-        } else {
-          alert("You have passed authentication and signed in successfully!");
-          auth.login(res.data.accessToken, 500, res.data.id);
-          window.location = "/";
-          setData(LoginConstant);
-        }
       });
+  
+      if (response.data === "NO") {
+        alert("Authentication Failed! Something went wrong, please check again!");
+        window.location.reload();
+      } else {
+        alert("You have passed authentication and signed in successfully!");
+        auth.login(response.data.accessToken, 500, response.data.id);  // Assuming auth.login is working fine
+        window.location = "/";  // Redirect to home
+        setData(LoginConstant);  // Reset data to default
+      }
     } catch (e) {
-      alert("Something goes wrong, please check!");
-      console.log(e);
+      // Log error for debugging and provide more details
+      console.error("Error during authentication:", e);
+      alert("Something went wrong, please check the console for details.");
     }
   };
-
+  
   const handleChange = (e) => {
     const newData = { ...data };
     newData[e.target.id] = e.target.value;

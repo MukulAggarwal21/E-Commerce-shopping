@@ -3,44 +3,45 @@ import "./Spinner.css";
 import styled from "styled-components";
 
 const Container = styled.div`
-  background: gray;
+  background: ${(props) => (props.overlay ? "rgba(0, 0, 0, 0.5)" : "transparent")};
   width: 100vw;
   height: 100vh;
   position: fixed;
   left: 0;
   top: 0;
   z-index: 1300;
-  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
+
 const ContentBox = styled.div`
-  line-height: 50;
-  margin-left: auto;
-  margin-right: auto;
-  width: 40px;
+  text-align: center;
 `;
 
-export default function Spinner(props) {
-  const overlayStyle = props.overlay
-    ? { background: "#CCCCCC", opacity: "0.5" }
-    : {};
+const Message = styled.p`
+  margin-top: 15px;
+  font-size: 1rem;
+  color: ${(props) => props.color || "#000"};
+`;
 
+export default function Spinner({ overlay = true, color = "#000", message = "Loading..." }) {
   return (
-    <Container style={overlayStyle}>
+    <Container overlay={overlay}>
       <ContentBox>
-        <div className="ispinner gray animating ispinner-large">
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
-          <div className="ispinner-blade"></div>
+        <div
+          className="ispinner gray animating ispinner-large"
+          style={{ "--ispinner-color": color }}
+        >
+          {Array.from({ length: 12 }).map((_, index) => (
+            <div
+              key={index}
+              className="ispinner-blade"
+              style={{ backgroundColor: color }}
+            ></div>
+          ))}
         </div>
+        {message && <Message color={color}>{message}</Message>}
       </ContentBox>
     </Container>
   );
