@@ -8,56 +8,32 @@ const FormWrapper = styled.div`
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background: linear-gradient(135deg, #ff99cc, #ff66b2);
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
   overflow: hidden;
   position: relative;
-  animation: backgroundColorChange 6s ease infinite;
-
-  @keyframes backgroundColorChange {
-    0% { background: linear-gradient(135deg, #ff99cc, #ff66b2); }
-    50% { background: linear-gradient(135deg, #66ccff, #33b5e5); }
-    100% { background: linear-gradient(135deg, #ff99cc, #ff66b2); }
-  }
-
-  &:before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2), rgba(0,0,0,0));
-    animation: rotate 15s infinite linear;
-  }
-
-  @keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
 `;
 
 const FormContainer = styled(motion.form)`
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(15px);
-  padding: 40px;
-  border-radius: 20px;
-  box-shadow: 0px 15px 35px rgba(0, 0, 0, 0.3);
-  max-width: 500px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 50px;
+  border-radius: 15px;
+  box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);
+  max-width: 400px;
   width: 100%;
   z-index: 1;
 `;
 
 const Title = styled.h1`
-  font-size: 2rem;
+  font-size: 2.5rem;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   color: #fff;
   font-weight: 700;
-  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
 `;
 
 const InputField = styled.div`
-  margin-bottom: 25px;
+  margin-bottom: 20px;
   position: relative;
 
   label {
@@ -73,18 +49,17 @@ const InputField = styled.div`
 
   input {
     width: 100%;
-    padding: 18px;
+    padding: 15px;
     border: 2px solid transparent;
     border-radius: 10px;
-    background: rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.2);
     color: #fff;
     font-size: 16px;
     outline: none;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
     &:focus {
-      border-color: #ff66b2;
+      border-color: #2a5298;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
@@ -93,15 +68,15 @@ const InputField = styled.div`
       top: -10px;
       left: 10px;
       font-size: 12px;
-      color: #ff66b2;
+      color: #2a5298;
     }
   }
 `;
 
 const SubmitButton = styled(motion.button)`
   width: 100%;
-  padding: 18px;
-  background: linear-gradient(135deg, #ff66b2, #ff99cc);
+  padding: 15px;
+  background: linear-gradient(135deg, #2a5298, #1e3c72);
   border: none;
   border-radius: 10px;
   color: white;
@@ -111,7 +86,7 @@ const SubmitButton = styled(motion.button)`
   transition: transform 0.2s ease-in;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   }
 
