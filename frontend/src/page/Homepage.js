@@ -9,18 +9,12 @@ import {
   CircularProgress,
   Snackbar,
   Alert,
-  Tooltip,
 } from "@mui/material";
 import { AddShoppingCart, Add } from "@mui/icons-material";
 import CartContext from "../store/cart-context";
 import { motion } from "framer-motion";
-import { keyframes } from "@emotion/react";
 import { styled } from "@mui/material/styles";
 
-const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-`;
 
 const StyledCard = styled(Card)`
   height: 100%;
