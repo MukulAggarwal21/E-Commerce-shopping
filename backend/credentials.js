@@ -1,8 +1,7 @@
 module.exports = {
-  altasDB: "cluster0.0ojwc.mongodb.net",
-  host: "localhost",
+  host: "127.0.0.1",
   port: 27017,
-  username: "cs602_user",
-  password: "cs602_secret",
-  database: "cs602db",
+  username: "",  // leave empty for local MongoDB without auth
+  password: "",  // leave empty for local MongoDB without auth
+  database: "myDB"
 };
